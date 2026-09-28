@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru" class="h-full bg-slate-950">
+<html lang="ru" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>FORMA Fitness Premium</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#07030d">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,21 +26,19 @@
                             700: '#6818A8',
                             800: '#531388',
                             900: '#3A0C61',
-                            950: '#0D0714',
-                            accentPink: '#EC4899',
-                            accentPurple: '#A855F7',
-                            cardBg: '#181028',
-                            glassBg: 'rgba(24, 16, 40, 0.85)',
-                            glassBorder: 'rgba(212, 175, 245, 0.18)'
+                            950: '#07030d',
+                            accentPink: '#f72585',
+                            accentPurple: '#9d4edd',
+                            cardBg: 'rgba(22, 12, 36, 0.85)',
+                            glassBorder: 'rgba(255, 255, 255, 0.14)'
                         }
                     },
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Roboto', 'sans-serif']
                     },
                     boxShadow: {
-                        'glow-pink': '0 10px 30px -5px rgba(236, 72, 153, 0.42)',
-                        'glow-purple': '0 10px 30px -5px rgba(168, 85, 247, 0.45)',
-                        'card-glass': '0 8px 32px 0 rgba(0, 0, 0, 0.55)'
+                        'glow-pink': '0 8px 25px -3px rgba(247, 37, 133, 0.45)',
+                        'glow-purple': '0 8px 25px -3px rgba(157, 78, 221, 0.45)'
                     }
                 }
             }
@@ -48,26 +49,42 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        :root {
+          --sat: env(safe-area-inset-top, 0px);
+          --sab: env(safe-area-inset-bottom, 0px);
+          --bg-dark: #07030d;
+          --accent-pink: #f72585;
+          --accent-purple: #9d4edd;
+          --text-main: #ffffff;
+          --border-glass: rgba(255, 255, 255, 0.14);
+        }
+
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            user-select: none;
+        html, body {
+            height: 100%;
+            height: -webkit-fill-available;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             overflow: hidden;
             touch-action: manipulation;
-            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-            background-color: #050208;
-            color: #FAF7FD;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
         }
 
         .app-viewport {
             width: 100%;
-            height: 100vh;
-            max-width: 430px;
+            height: 100dvh;
+            height: -webkit-fill-available;
+            max-width: 440px;
             margin: 0 auto;
-            background: linear-gradient(180deg, #150B28 0%, #0D0714 100%);
+            background: linear-gradient(180deg, #130a24 0%, #07030d 100%);
             display: flex;
             flex-direction: column;
             position: relative;
@@ -77,8 +94,8 @@
         @media (min-width: 640px) {
             .app-viewport {
                 height: 880px;
-                border-radius: 48px;
-                box-shadow: 0 25px 90px rgba(0, 0, 0, 0.98), 0 0 0 12px #22123C;
+                border-radius: 44px;
+                box-shadow: 0 25px 90px rgba(0, 0, 0, 0.98), 0 0 0 12px #1f0f38;
             }
         }
 
@@ -87,8 +104,7 @@
             flex-direction: column;
             flex: 1;
             height: 100%;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
         }
 
         .screen-view.active {
@@ -103,39 +119,75 @@
             scrollbar-width: none;
         }
 
+        .glass-card {
+            background: rgba(22, 12, 36, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+        }
+
         .btn-touch {
-            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease, box-shadow 0.15s ease;
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
         }
         .btn-touch:active {
             transform: scale(0.96);
             opacity: 0.92;
         }
 
-        .glass-card {
-            background: rgba(26, 17, 44, 0.82);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 245, 0.18);
-            border-radius: 24px;
-        }
-
         .selectable-card {
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1.5px solid rgba(212, 175, 245, 0.15);
-            background: rgba(32, 20, 54, 0.65);
-            color: #FAF7FD;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(30, 16, 50, 0.65);
+            color: #FFFFFF;
         }
 
         .selectable-card.is-selected {
-            border-color: #EC4899 !important;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(236, 72, 153, 0.35) 100%) !important;
-            box-shadow: 0 0 22px rgba(236, 72, 153, 0.38);
-            color: #FFFFFF !important;
+            border-color: var(--accent-pink) !important;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.35) 0%, rgba(247, 37, 133, 0.35) 100%) !important;
+            box-shadow: 0 0 20px rgba(247, 37, 133, 0.35);
+        }
+
+        /* Fixed Onboarding Footer */
+        .onboarding-footer {
+            padding-top: 10px;
+            padding-bottom: calc(var(--sab) + 12px);
+            padding-left: 20px;
+            padding-right: 20px;
+            background: linear-gradient(180deg, rgba(7, 3, 13, 0) 0%, rgba(7, 3, 13, 0.95) 40%, rgba(7, 3, 13, 1) 100%);
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        /* Fixed Bottom Navigation Bar */
+        .bottom-nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: calc(62px + var(--sab));
+            padding-bottom: var(--sab);
+            background: rgba(14, 7, 26, 0.96);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Tab Scroll Container Bottom Spacing */
+        .tab-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(85px + var(--sab));
         }
 
         @keyframes muscleGlow {
             0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 12px #EC4899); }
+            50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 10px #f72585); }
         }
 
         .muscle-pulse {
@@ -163,7 +215,7 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-0 sm:p-4 text-forma-50 font-sans antialiased">
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4 text-white font-sans antialiased">
 
     <div class="app-viewport">
 
@@ -176,7 +228,7 @@
         </div>
 
         <!-- TOP APP HEADER -->
-        <header id="top-header" class="px-5 pt-4 pb-2 flex justify-between items-center z-30 bg-forma-950/80 backdrop-blur-md shrink-0 border-b border-white/5">
+        <header id="top-header" class="px-5 pt-3 pb-2 flex justify-between items-center z-30 bg-forma-950/80 backdrop-blur-md shrink-0 border-b border-white/5" style="padding-top: calc(var(--sat) + 12px);">
             <div class="flex items-center space-x-2.5 cursor-pointer" onclick="safeRun(() => switchTab('dashboard'))">
                 <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-forma-accentPurple to-forma-accentPink flex items-center justify-center text-white text-sm font-black shadow-glow-pink">
                     F
@@ -200,7 +252,7 @@
 
             <!-- 1. WELCOME LANDING SCREEN -->
             <section id="screen-welcome" class="screen-view active p-6 flex flex-col justify-between h-full bg-gradient-to-b from-forma-950 via-forma-900 to-black">
-                <div class="flex-1 flex flex-col justify-center items-center text-center space-y-5 my-auto pt-4">
+                <div class="flex-1 flex flex-col justify-center items-center text-center space-y-5 my-auto pt-2">
                     
                     <div class="relative">
                         <div class="absolute -inset-6 bg-gradient-to-r from-forma-accentPurple via-forma-accentPink to-purple-600 rounded-full blur-2xl opacity-50 animate-pulse"></div>
@@ -223,7 +275,7 @@
                     <div class="w-full grid grid-cols-3 gap-2.5 pt-2">
                         <div class="glass-card p-3 text-center space-y-1">
                             <i class="fa-solid fa-heart-pulse text-xl text-forma-accentPink"></i>
-                            <span class="text-[10px] font-extrabold text-white block"> Умный ритм</span>
+                            <span class="text-[10px] font-extrabold text-white block">Умный ритм</span>
                         </div>
                         <div class="glass-card p-3 text-center space-y-1">
                             <i class="fa-solid fa-house-chimney text-xl text-forma-accentPurple"></i>
@@ -236,7 +288,7 @@
                     </div>
                 </div>
 
-                <div class="space-y-2.5 pt-3 shrink-0 mb-3">
+                <div class="space-y-2.5 pt-3 shrink-0 mb-3" style="padding-bottom: calc(var(--sab) + 10px);">
                     <button id="btn-welcome-start" onclick="safeRun(startOnboardingFlow)" class="btn-touch w-full py-4 px-6 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink flex items-center justify-center space-x-2 text-sm uppercase tracking-wide">
                         <span>Начать путь</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -248,9 +300,10 @@
             </section>
 
             <!-- 2. ONBOARDING WIZARD SCREEN -->
-            <section id="screen-onboarding" class="screen-view p-5 flex flex-col justify-between h-full bg-forma-950">
+            <section id="screen-onboarding" class="screen-view h-full bg-forma-950 flex flex-col justify-between">
                 
-                <div class="flex items-center justify-between shrink-0 mb-3">
+                <!-- Onboarding Header -->
+                <div class="px-5 pt-3 pb-2 flex items-center justify-between shrink-0">
                     <button onclick="safeRun(prevOnboardingStep)" class="w-9 h-9 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center text-white shadow-sm btn-touch">
                         <i class="fa-solid fa-chevron-left text-xs"></i>
                     </button>
@@ -260,57 +313,58 @@
                     <span id="ob-step-indicator" class="text-xs font-black text-forma-accentPink">1 из 6</span>
                 </div>
 
-                <div class="flex-1 overflow-y-auto no-scrollbar space-y-4 py-1">
+                <!-- Scrollable Step Fields Area -->
+                <div class="flex-1 overflow-y-auto no-scrollbar px-5 py-2 space-y-3">
                     
                     <!-- STEP 1: Name & Metrics -->
-                    <div id="ob-step-1" class="ob-step-page space-y-3.5">
+                    <div id="ob-step-1" class="ob-step-page space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Расскажи о себе 🌸</h2>
                             <p class="text-forma-300 text-xs">Введи имя и параметры для создания плана.</p>
                         </div>
 
-                        <div class="space-y-3">
-                            <div class="glass-card p-4 space-y-1">
+                        <div class="space-y-2.5">
+                            <div class="glass-card p-3.5 space-y-1">
                                 <label class="text-[10px] font-black text-forma-accentPink uppercase tracking-wider block">Как тебя зовут?</label>
                                 <input type="text" id="ob-input-name" placeholder="Введи своё имя..." class="w-full text-base font-black text-white focus:outline-none bg-transparent border-b border-white/20 pb-1 pt-1 placeholder-white/30">
                             </div>
 
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div class="glass-card p-3.5">
+                                <div class="glass-card p-3">
                                     <label class="text-[10px] font-black text-forma-300 uppercase tracking-wider block mb-1">Возраст</label>
                                     <div class="flex items-center justify-between">
-                                        <button type="button" onclick="safeRun(() => changeObVal('age', -1))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
-                                        <span id="ob-val-age" class="text-base font-black text-white">24</span>
-                                        <button type="button" onclick="safeRun(() => changeObVal('age', 1))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
+                                        <button type="button" onclick="safeRun(() => changeObVal('age', -1))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
+                                        <span id="ob-val-age" class="text-sm font-black text-white">24</span>
+                                        <button type="button" onclick="safeRun(() => changeObVal('age', 1))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
                                     </div>
                                 </div>
 
-                                <div class="glass-card p-3.5">
+                                <div class="glass-card p-3">
                                     <label class="text-[10px] font-black text-forma-300 uppercase tracking-wider block mb-1">Рост (см)</label>
                                     <div class="flex items-center justify-between">
-                                        <button type="button" onclick="safeRun(() => changeObVal('height', -1))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
-                                        <span id="ob-val-height" class="text-base font-black text-white">166</span>
-                                        <button type="button" onclick="safeRun(() => changeObVal('height', 1))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
+                                        <button type="button" onclick="safeRun(() => changeObVal('height', -1))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
+                                        <span id="ob-val-height" class="text-sm font-black text-white">166</span>
+                                        <button type="button" onclick="safeRun(() => changeObVal('height', 1))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div class="glass-card p-3.5">
+                                <div class="glass-card p-3">
                                     <label class="text-[10px] font-black text-forma-300 uppercase tracking-wider block mb-1">Текущий вес (кг)</label>
                                     <div class="flex items-center justify-between">
-                                        <button type="button" onclick="safeRun(() => changeObVal('currentWeight', -0.5))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
-                                        <span id="ob-val-currentWeight" class="text-base font-black text-white">62.0</span>
-                                        <button type="button" onclick="safeRun(() => changeObVal('currentWeight', 0.5))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
+                                        <button type="button" onclick="safeRun(() => changeObVal('currentWeight', -0.5))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
+                                        <span id="ob-val-currentWeight" class="text-sm font-black text-white">62.0</span>
+                                        <button type="button" onclick="safeRun(() => changeObVal('currentWeight', 0.5))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
                                     </div>
                                 </div>
 
-                                <div class="glass-card p-3.5">
+                                <div class="glass-card p-3">
                                     <label class="text-[10px] font-black text-forma-300 uppercase tracking-wider block mb-1">Желаемый вес (кг)</label>
                                     <div class="flex items-center justify-between">
-                                        <button type="button" onclick="safeRun(() => changeObVal('targetWeight', -0.5))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
-                                        <span id="ob-val-targetWeight" class="text-base font-black text-white">56.0</span>
-                                        <button type="button" onclick="safeRun(() => changeObVal('targetWeight', 0.5))" class="w-8 h-8 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
+                                        <button type="button" onclick="safeRun(() => changeObVal('targetWeight', -0.5))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">-</button>
+                                        <span id="ob-val-targetWeight" class="text-sm font-black text-white">56.0</span>
+                                        <button type="button" onclick="safeRun(() => changeObVal('targetWeight', 0.5))" class="w-7 h-7 rounded-xl bg-white/10 text-white font-extrabold btn-touch">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -318,118 +372,112 @@
                     </div>
 
                     <!-- STEP 2: Goals -->
-                    <div id="ob-step-2" class="ob-step-page hidden space-y-3.5">
+                    <div id="ob-step-2" class="ob-step-page hidden space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Какая твоя цель? ✨</h2>
                             <p class="text-forma-300 text-xs">Выбери основные ориентиры.</p>
                         </div>
 
                         <div class="space-y-2">
-                            <div onclick="safeRun(() => toggleObGoal(this, '🔥 Снизить вес'))" class="selectable-card is-selected p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
-                                <span class="text-xs font-bold">🔥 Снизить вес без жестких ограничений</span>
+                            <div onclick="safeRun(() => toggleObGoal(this, '🔥 Снизить вес'))" class="selectable-card is-selected p-3 rounded-2xl cursor-pointer flex justify-between items-center">
+                                <span class="text-xs font-bold">🔥 Снизить вес без ограничений</span>
                                 <i class="fa-solid fa-circle-check text-sm text-forma-accentPink"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObGoal(this, '✨ Подтянуть тело'))" class="selectable-card p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
+                            <div onclick="safeRun(() => toggleObGoal(this, '✨ Подтянуть тело'))" class="selectable-card p-3 rounded-2xl cursor-pointer flex justify-between items-center">
                                 <span class="text-xs font-bold">✨ Подтянуть тело и сделать рельеф</span>
                                 <i class="fa-solid fa-circle-check text-sm text-forma-accentPink opacity-0"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObGoal(this, '🍑 Акцент на ягодицы'))" class="selectable-card p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
+                            <div onclick="safeRun(() => toggleObGoal(this, '🍑 Акцент на ягодицы'))" class="selectable-card p-3 rounded-2xl cursor-pointer flex justify-between items-center">
                                 <span class="text-xs font-bold">🍑 Сделать акцент на ягодицы</span>
                                 <i class="fa-solid fa-circle-check text-sm text-forma-accentPink opacity-0"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObGoal(this, '💪 Укрепить мышцы'))" class="selectable-card p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
+                            <div onclick="safeRun(() => toggleObGoal(this, '💪 Укрепить мышцы'))" class="selectable-card p-3 rounded-2xl cursor-pointer flex justify-between items-center">
                                 <span class="text-xs font-bold">💪 Укрепить мышцы и осанку</span>
                                 <i class="fa-solid fa-circle-check text-sm text-forma-accentPink opacity-0"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObGoal(this, '❤️ Выносливость'))" class="selectable-card p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
+                            <div onclick="safeRun(() => toggleObGoal(this, '❤️ Выносливость'))" class="selectable-card p-3 rounded-2xl cursor-pointer flex justify-between items-center">
                                 <span class="text-xs font-bold">❤️ Улучшить выносливость</span>
-                                <i class="fa-solid fa-circle-check text-sm text-forma-accentPink opacity-0"></i>
-                            </div>
-                            <div onclick="safeRun(() => toggleObGoal(this, '🌿 Самочувствие'))" class="selectable-card p-3.5 rounded-2xl cursor-pointer flex justify-between items-center">
-                                <span class="text-xs font-bold">🌿 Улучшить общее самочувствие</span>
                                 <i class="fa-solid fa-circle-check text-sm text-forma-accentPink opacity-0"></i>
                             </div>
                         </div>
                     </div>
 
                     <!-- STEP 3: Activity -->
-                    <div id="ob-step-3" class="ob-step-page hidden space-y-3.5">
+                    <div id="ob-step-3" class="ob-step-page hidden space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Твоя активность 🚶‍♀️</h2>
-                            <p class="text-forma-300 text-xs">Подберем физическую нагрузку без переутомления.</p>
+                            <p class="text-forma-300 text-xs">Подберем нагрузку без переутомления.</p>
                         </div>
 
-                        <div class="space-y-2.5">
-                            <div onclick="safeRun(() => selectObActivity(this, '🛋️ Низкая'))" class="ob-act-card selectable-card p-3.5 rounded-2xl cursor-pointer flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-xl shrink-0">🛋️</div>
+                        <div class="space-y-2">
+                            <div onclick="safeRun(() => selectObActivity(this, '🛋️ Низкая'))" class="ob-act-card selectable-card p-3 rounded-2xl cursor-pointer flex items-center space-x-3">
+                                <div class="w-9 h-9 rounded-2xl bg-white/10 flex items-center justify-center text-lg shrink-0">🛋️</div>
                                 <div>
                                     <h4 class="text-xs font-black">Низкая активность</h4>
                                     <p class="text-[10px] text-forma-300">Мало движения в течение дня</p>
                                 </div>
                             </div>
-                            <div onclick="safeRun(() => selectObActivity(this, '🚶 Средняя'))" class="ob-act-card selectable-card is-selected p-3.5 rounded-2xl cursor-pointer flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-xl shrink-0">🚶</div>
+                            <div onclick="safeRun(() => selectObActivity(this, '🚶 Средняя'))" class="ob-act-card selectable-card is-selected p-3 rounded-2xl cursor-pointer flex items-center space-x-3">
+                                <div class="w-9 h-9 rounded-2xl bg-white/10 flex items-center justify-center text-lg shrink-0">🚶</div>
                                 <div>
                                     <h4 class="text-xs font-black">Средняя активность</h4>
                                     <p class="text-[10px] text-forma-300">Пешие прогулки и обычные дела</p>
                                 </div>
                             </div>
-                            <div onclick="safeRun(() => selectObActivity(this, '🏃 Высокая'))" class="ob-act-card selectable-card p-3.5 rounded-2xl cursor-pointer flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-xl shrink-0">🏃</div>
+                            <div onclick="safeRun(() => selectObActivity(this, '🏃 Высокая'))" class="ob-act-card selectable-card p-3 rounded-2xl cursor-pointer flex items-center space-x-3">
+                                <div class="w-9 h-9 rounded-2xl bg-white/10 flex items-center justify-center text-lg shrink-0">🏃</div>
                                 <div>
                                     <h4 class="text-xs font-black">Высокая активность</h4>
-                                    <p class="text-[10px] text-forma-300">Много шагов, спорт или тренировки</p>
+                                    <p class="text-[10px] text-forma-300">Много шагов или тренировки</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- STEP 4: Location -->
-                    <div id="ob-step-4" class="ob-step-page hidden space-y-3.5">
+                    <div id="ob-step-4" class="ob-step-page hidden space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Где заниматься? 🏠🏋️</h2>
                             <p class="text-forma-300 text-xs">Параметры всегда можно сменить в Профиле.</p>
                         </div>
 
-                        <div class="space-y-2">
-                            <div class="grid grid-cols-3 gap-2">
-                                <button type="button" onclick="safeRun(() => selectObLocation(this, '🏠 Дома'))" class="ob-loc-btn selectable-card is-selected p-3.5 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
-                                    <i class="fa-solid fa-house-chimney text-lg"></i>
-                                    <span class="text-xs font-bold block">🏠 Дома</span>
-                                </button>
-                                <button type="button" onclick="safeRun(() => selectObLocation(this, '🏋️ В зале'))" class="ob-loc-btn selectable-card p-3.5 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
-                                    <i class="fa-solid fa-dumbbell text-lg"></i>
-                                    <span class="text-xs font-bold block">🏋️ В зале</span>
-                                </button>
-                                <button type="button" onclick="safeRun(() => selectObLocation(this, '🔄 Дома и в зале'))" class="ob-loc-btn selectable-card p-3.5 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
-                                    <i class="fa-solid fa-arrows-rotate text-lg"></i>
-                                    <span class="text-xs font-bold block">🔄 Везде</span>
-                                </button>
-                            </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="safeRun(() => selectObLocation(this, '🏠 Дома'))" class="ob-loc-btn selectable-card is-selected p-3 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-house-chimney text-base"></i>
+                                <span class="text-xs font-bold block">🏠 Дома</span>
+                            </button>
+                            <button type="button" onclick="safeRun(() => selectObLocation(this, '🏋️ В зале'))" class="ob-loc-btn selectable-card p-3 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-dumbbell text-base"></i>
+                                <span class="text-xs font-bold block">🏋️ В зале</span>
+                            </button>
+                            <button type="button" onclick="safeRun(() => selectObLocation(this, '🔄 Дома и в зале'))" class="ob-loc-btn selectable-card p-3 rounded-2xl text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-arrows-rotate text-base"></i>
+                                <span class="text-xs font-bold block">🔄 Везде</span>
+                            </button>
                         </div>
                     </div>
 
                     <!-- STEP 5: Equipment -->
-                    <div id="ob-step-5" class="ob-step-page hidden space-y-3.5">
+                    <div id="ob-step-5" class="ob-step-page hidden space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Инвентарь 🎀</h2>
                             <p class="text-forma-300 text-xs">Отметь, что у тебя есть под рукой.</p>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2.5">
-                            <div onclick="safeRun(() => toggleObEquipment(this, 'Гантели'))" class="ob-eq-chip selectable-card is-selected p-3.5 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div onclick="safeRun(() => toggleObEquipment(this, 'Гантели'))" class="ob-eq-chip selectable-card is-selected p-3 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
                                 <span>🏋️‍♀️ Гантели</span>
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObEquipment(this, 'Резинки'))" class="ob-eq-chip selectable-card is-selected p-3.5 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
+                            <div onclick="safeRun(() => toggleObEquipment(this, 'Резинки'))" class="ob-eq-chip selectable-card is-selected p-3 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
                                 <span>🎀 Резинки</span>
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObEquipment(this, 'Коврик'))" class="ob-eq-chip selectable-card is-selected p-3.5 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
+                            <div onclick="safeRun(() => toggleObEquipment(this, 'Коврик'))" class="ob-eq-chip selectable-card is-selected p-3 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
                                 <span>🧘‍♀️ Коврик</span>
                                 <i class="fa-solid fa-check text-xs"></i>
                             </div>
-                            <div onclick="safeRun(() => toggleObEquipment(this, 'Без оборудования'))" class="ob-eq-chip selectable-card p-3.5 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
+                            <div onclick="safeRun(() => toggleObEquipment(this, 'Без оборудования'))" class="ob-eq-chip selectable-card p-3 rounded-2xl cursor-pointer flex items-center justify-between text-xs font-bold">
                                 <span>🚫 Нет инвентаря</span>
                                 <i class="fa-solid fa-check text-xs opacity-0"></i>
                             </div>
@@ -437,7 +485,7 @@
                     </div>
 
                     <!-- STEP 6: Duration & Frequency -->
-                    <div id="ob-step-6" class="ob-step-page hidden space-y-3.5">
+                    <div id="ob-step-6" class="ob-step-page hidden space-y-3">
                         <div>
                             <h2 class="text-xl font-black text-white">Время и дни ⏱️</h2>
                             <p class="text-forma-300 text-xs">Комфортный график регулярности.</p>
@@ -446,19 +494,19 @@
                         <div class="space-y-2">
                             <label class="text-[10px] font-black text-forma-accentPink uppercase tracking-wider block">Длительность тренировки</label>
                             <div class="grid grid-cols-2 gap-2">
-                                <button type="button" onclick="safeRun(() => selectObDuration(this, 15))" class="ob-dur-card selectable-card p-3 rounded-2xl text-left">
+                                <button type="button" onclick="safeRun(() => selectObDuration(this, 15))" class="ob-dur-card selectable-card p-2.5 rounded-2xl text-left">
                                     <span class="text-xs font-black block">15 минут</span>
                                     <span class="text-[9px] text-forma-300 font-semibold block">Экспресс тонус</span>
                                 </button>
-                                <button type="button" onclick="safeRun(() => selectObDuration(this, 30))" class="ob-dur-card selectable-card is-selected p-3 rounded-2xl text-left">
+                                <button type="button" onclick="safeRun(() => selectObDuration(this, 30))" class="ob-dur-card selectable-card is-selected p-2.5 rounded-2xl text-left">
                                     <span class="text-xs font-black block">30 минут</span>
                                     <span class="text-[9px] text-forma-300 font-semibold block">Оптимально</span>
                                 </button>
-                                <button type="button" onclick="safeRun(() => selectObDuration(this, 45))" class="ob-dur-card selectable-card p-3 rounded-2xl text-left">
+                                <button type="button" onclick="safeRun(() => selectObDuration(this, 45))" class="ob-dur-card selectable-card p-2.5 rounded-2xl text-left">
                                     <span class="text-xs font-black block">45 минут</span>
                                     <span class="text-[9px] text-forma-300 font-semibold block">Полная программа</span>
                                 </button>
-                                <button type="button" onclick="safeRun(() => selectObDuration(this, 60))" class="ob-dur-card selectable-card p-3 rounded-2xl text-left">
+                                <button type="button" onclick="safeRun(() => selectObDuration(this, 60))" class="ob-dur-card selectable-card p-2.5 rounded-2xl text-left">
                                     <span class="text-xs font-black block">60 минут</span>
                                     <span class="text-[9px] text-forma-300 font-semibold block">Максимум</span>
                                 </button>
@@ -467,7 +515,7 @@
 
                         <div class="space-y-2 pt-1">
                             <label class="text-[10px] font-black text-forma-accentPink uppercase tracking-wider block">Дней в неделю</label>
-                            <div class="grid grid-cols-4 gap-2">
+                            <div class="grid grid-cols-4 gap-1.5">
                                 <button type="button" onclick="safeRun(() => selectObDays(this, 3))" class="ob-days-card selectable-card p-2.5 rounded-2xl text-center text-xs font-black">3 дня</button>
                                 <button type="button" onclick="safeRun(() => selectObDays(this, 4))" class="ob-days-card selectable-card is-selected p-2.5 rounded-2xl text-center text-xs font-black">4 дня</button>
                                 <button type="button" onclick="safeRun(() => selectObDays(this, 5))" class="ob-days-card selectable-card p-2.5 rounded-2xl text-center text-xs font-black">5 дней</button>
@@ -478,20 +526,22 @@
 
                 </div>
 
-                <div class="shrink-0 pt-2 mb-2">
-                    <button type="button" onclick="safeRun(nextOnboardingStep)" class="btn-touch w-full py-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink text-xs uppercase tracking-wider">
-                        Продолжить
+                <!-- FIXED ONBOARDING FOOTER BUTTON -->
+                <div class="onboarding-footer">
+                    <button type="button" onclick="safeRun(nextOnboardingStep)" class="btn-touch w-full py-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink text-xs uppercase tracking-wider flex items-center justify-center space-x-2">
+                        <span>Продолжить</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
             </section>
 
-            <!-- 2.1 PLAN GENERATION SCREEN (INSTANT & NON-BLOCKING) -->
+            <!-- 2.1 PLAN GENERATION SCREEN -->
             <section id="screen-plan-gen" class="screen-view p-6 flex flex-col justify-between items-center text-center h-full bg-gradient-to-b from-forma-950 via-forma-900 to-black">
-                <div class="my-auto space-y-6 w-full max-w-xs">
-                    <div class="relative w-28 h-28 mx-auto">
+                <div class="my-auto space-y-5 w-full max-w-xs">
+                    <div class="relative w-24 h-24 mx-auto">
                         <div class="absolute -inset-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink rounded-full blur-2xl opacity-60 animate-pulse"></div>
-                        <div class="relative w-28 h-28 rounded-full border-4 border-white/10 border-t-forma-accentPink animate-spin flex items-center justify-center bg-forma-900 shadow-glow-purple">
-                            <i class="fa-solid fa-wand-magic-sparkles text-4xl text-forma-accentPink"></i>
+                        <div class="relative w-24 h-24 rounded-full border-4 border-white/10 border-t-forma-accentPink animate-spin flex items-center justify-center bg-forma-900 shadow-glow-purple">
+                            <i class="fa-solid fa-wand-magic-sparkles text-3xl text-forma-accentPink"></i>
                         </div>
                     </div>
 
@@ -500,27 +550,27 @@
                         <p class="text-xs text-forma-300">Персональный ритм сформирован</p>
                     </div>
 
-                    <div class="glass-card p-4 space-y-3 text-left text-xs font-bold text-white border border-white/10">
-                        <div id="gen-st-1" class="flex items-center space-x-3 transition-all duration-300">
+                    <div class="glass-card p-4 space-y-2.5 text-left text-xs font-bold text-white border border-white/10">
+                        <div class="flex items-center space-x-3">
                             <i class="fa-solid fa-circle-check text-forma-accentPink text-sm"></i>
                             <span>Анализируем физические данные</span>
                         </div>
-                        <div id="gen-st-2" class="flex items-center space-x-3 transition-all duration-300">
+                        <div class="flex items-center space-x-3">
                             <i class="fa-solid fa-circle-check text-forma-accentPink text-sm"></i>
                             <span>Подбираем нагрузку</span>
                         </div>
-                        <div id="gen-st-3" class="flex items-center space-x-3 transition-all duration-300">
+                        <div class="flex items-center space-x-3">
                             <i class="fa-solid fa-circle-check text-forma-accentPink text-sm"></i>
                             <span>Формируем расписание</span>
                         </div>
-                        <div id="gen-st-4" class="flex items-center space-x-3 transition-all duration-300">
+                        <div class="flex items-center space-x-3">
                             <i class="fa-solid fa-circle-check text-forma-accentPink text-sm"></i>
                             <span>Создаём тренировочный план</span>
                         </div>
                     </div>
                 </div>
 
-                <div id="gen-finish-btn-box" class="w-full pb-3 shrink-0">
+                <div class="w-full pb-3 shrink-0" style="padding-bottom: calc(var(--sab) + 12px);">
                     <button type="button" onclick="safeRun(completeOnboardingFlow)" class="btn-touch w-full py-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink text-xs uppercase tracking-wider flex items-center justify-center space-x-2">
                         <span>Перейти в Dashboard 💗</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -529,241 +579,251 @@
             </section>
 
             <!-- 3. DASHBOARD TAB -->
-            <section id="tab-dashboard" class="screen-view p-5 space-y-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <span class="text-[10px] font-black text-forma-300 uppercase tracking-wider block">Доброе утро 💗</span>
-                        <h2 id="dash-greeting-name" class="text-xl font-black text-white">Пользователь</h2>
-                    </div>
-                    <button type="button" onclick="safeRun(() => switchTab('profile'))" id="dash-loc-pill" class="glass-card px-3.5 py-1.5 text-xs font-black text-forma-accentPink flex items-center space-x-2 border border-forma-accentPink/30 btn-touch">
-                        <i class="fa-solid fa-location-dot text-xs"></i>
-                        <span id="dash-loc-text">🏠 Дома</span>
-                    </button>
-                </div>
-
-                <!-- Weight Hero Progress Card -->
-                <div class="bg-gradient-to-br from-forma-900 via-forma-800 to-black rounded-3xl p-4 text-white shadow-glow-purple border border-white/10 space-y-3 relative overflow-hidden">
-                    <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-forma-accentPink/20 rounded-full blur-3xl"></div>
-
-                    <div class="flex justify-between items-start relative z-10">
+            <section id="tab-dashboard" class="screen-view">
+                <div class="tab-scroll-area p-5 space-y-4">
+                    <div class="flex justify-between items-center">
                         <div>
-                            <span class="text-[10px] font-extrabold text-forma-300 uppercase tracking-wider block">Текущий вес</span>
-                            <div class="text-2xl font-black"><span id="dash-weight-cur">0.0</span> <span class="text-xs font-extrabold text-forma-300">кг</span></div>
+                            <span class="text-[10px] font-black text-forma-300 uppercase tracking-wider block">Доброе утро 💗</span>
+                            <h2 id="dash-greeting-name" class="text-xl font-black text-white">Пользователь</h2>
                         </div>
-                        <div class="text-right">
-                            <span class="text-[10px] font-extrabold text-forma-300 uppercase tracking-wider block">Целевой вес</span>
-                            <div class="text-lg font-black text-white"><span id="dash-weight-tar">0.0</span> кг</div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1 relative z-10">
-                        <div class="flex justify-between text-[10px] font-extrabold text-forma-200">
-                            <span>Разница: <strong id="dash-weight-rem" class="text-white">0.0 кг</strong></span>
-                            <span id="dash-weight-pct">0%</span>
-                        </div>
-                        <div class="w-full bg-black/50 h-2.5 rounded-full overflow-hidden p-0.5 border border-white/10">
-                            <div id="dash-progress-fill" class="bg-gradient-to-r from-forma-accentPurple to-forma-accentPink h-full rounded-full transition-all duration-500" style="width: 12%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Today Workout Card -->
-                <div class="glass-card overflow-hidden space-y-3 border border-white/10">
-                    <div class="relative h-32 bg-slate-900 overflow-hidden">
-                        <img id="dash-workout-img" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop&q=80" alt="Workout" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x300/181028/ffffff?text=FORMA+Workout'">
-                        <div class="absolute inset-0 bg-gradient-to-t from-forma-950 via-forma-950/40 to-transparent"></div>
-                        <div class="absolute bottom-3 left-3.5 right-3.5 flex justify-between items-end text-white">
-                            <div>
-                                <span class="text-[9px] font-black bg-forma-accentPink text-white px-2.5 py-0.5 rounded-md uppercase tracking-wider">🔥 ТРЕНИРОВКА СЕГОДНЯ</span>
-                                <h3 id="dash-workout-title" class="text-sm font-black mt-1">Пилатес & Тонус ягодиц</h3>
-                            </div>
-                            <span id="dash-workout-time" class="text-xs font-black bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20">30 мин</span>
-                        </div>
-                    </div>
-
-                    <div class="p-3.5 pt-0 space-y-2.5">
-                        <p id="dash-workout-sub" class="text-xs text-forma-300">4 упражнения • Коврик и резинки</p>
-                        <button type="button" onclick="safeRun(startWorkoutSession)" class="btn-touch w-full py-3 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink text-xs uppercase tracking-wider flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-play text-xs"></i>
-                            <span>Начать тренировку</span>
+                        <button type="button" onclick="safeRun(() => switchTab('profile'))" id="dash-loc-pill" class="glass-card px-3 py-1.5 text-xs font-black text-forma-accentPink flex items-center space-x-1.5 border border-forma-accentPink/30 btn-touch">
+                            <i class="fa-solid fa-location-dot text-xs"></i>
+                            <span id="dash-loc-text">🏠 Дома</span>
                         </button>
                     </div>
-                </div>
 
-                <!-- Quick Activity Trackers Grid -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="glass-card p-3.5 flex flex-col justify-between space-y-2 border border-white/10">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-extrabold text-white">🚶 Шаги</span>
-                            <button type="button" onclick="safeRun(() => incrementSteps(500))" class="text-[10px] font-extrabold bg-white/10 text-forma-accentPink px-2 py-0.5 rounded-lg btn-touch border border-white/10">+500</button>
+                    <!-- Weight Progress Card -->
+                    <div class="bg-gradient-to-br from-forma-900 via-forma-800 to-black rounded-3xl p-4 text-white shadow-glow-purple border border-white/10 space-y-3 relative overflow-hidden">
+                        <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-forma-accentPink/20 rounded-full blur-3xl"></div>
+
+                        <div class="flex justify-between items-start relative z-10">
+                            <div>
+                                <span class="text-[10px] font-extrabold text-forma-300 uppercase tracking-wider block">Текущий вес</span>
+                                <div class="text-2xl font-black"><span id="dash-weight-cur">0.0</span> <span class="text-xs font-extrabold text-forma-300">кг</span></div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-extrabold text-forma-300 uppercase tracking-wider block">Целевой вес</span>
+                                <div class="text-lg font-black text-white"><span id="dash-weight-tar">0.0</span> кг</div>
+                            </div>
                         </div>
-                        <div class="text-lg font-black text-white"><span id="dash-steps-cur">0</span> <span class="text-[10px] text-forma-300 font-normal">/ 8,000</span></div>
-                    </div>
 
-                    <div class="glass-card p-3.5 flex flex-col justify-between space-y-2 border border-white/10">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-extrabold text-white">💧 Вода</span>
-                            <button type="button" onclick="safeRun(() => incrementWater(250))" class="text-[10px] font-extrabold bg-white/10 text-forma-accentPink px-2 py-0.5 rounded-lg btn-touch border border-white/10">+250мл</button>
+                        <div class="space-y-1 relative z-10">
+                            <div class="flex justify-between text-[10px] font-extrabold text-forma-200">
+                                <span>Разница: <strong id="dash-weight-rem" class="text-white">0.0 кг</strong></span>
+                                <span id="dash-weight-pct">0%</span>
+                            </div>
+                            <div class="w-full bg-black/50 h-2.5 rounded-full overflow-hidden p-0.5 border border-white/10">
+                                <div id="dash-progress-fill" class="bg-gradient-to-r from-forma-accentPurple to-forma-accentPink h-full rounded-full transition-all duration-500" style="width: 12%"></div>
+                            </div>
                         </div>
-                        <div class="text-lg font-black text-white"><span id="dash-water-cur">0.00</span> <span class="text-[10px] text-forma-300 font-normal">/ 2.0л</span></div>
                     </div>
 
-                    <div class="glass-card p-3.5 flex flex-col justify-between space-y-1.5 border border-white/10" onclick="safeRun(() => switchTab('nutrition'))">
-                        <span class="text-xs font-extrabold text-white">🍽 Питание</span>
-                        <div class="text-xs font-bold text-forma-300"><span id="dash-meals-checked">0</span> из <span id="dash-meals-total">4</span> блюд</div>
+                    <!-- Today Workout Card -->
+                    <div class="glass-card overflow-hidden space-y-3 border border-white/10">
+                        <div class="relative h-32 bg-slate-900 overflow-hidden">
+                            <img id="dash-workout-img" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop&q=80" alt="Workout" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x300/181028/ffffff?text=FORMA+Workout'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-forma-950 via-forma-950/40 to-transparent"></div>
+                            <div class="absolute bottom-3 left-3.5 right-3.5 flex justify-between items-end text-white">
+                                <div>
+                                    <span class="text-[9px] font-black bg-forma-accentPink text-white px-2.5 py-0.5 rounded-md uppercase tracking-wider">🔥 ТРЕНИРОВКА СЕГОДНЯ</span>
+                                    <h3 id="dash-workout-title" class="text-sm font-black mt-1">Пилатес & Тонус ягодиц</h3>
+                                </div>
+                                <span id="dash-workout-time" class="text-xs font-black bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/20">30 мин</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 pt-0 space-y-2.5">
+                            <p id="dash-workout-sub" class="text-xs text-forma-300">4 упражнения • Коврик и резинки</p>
+                            <button type="button" onclick="safeRun(startWorkoutSession)" class="btn-touch w-full py-3 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black rounded-2xl shadow-glow-pink text-xs uppercase tracking-wider flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-play text-xs"></i>
+                                <span>Начать тренировку</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="glass-card p-3.5 flex flex-col justify-between space-y-1.5 border border-white/10">
-                        <span class="text-xs font-extrabold text-white">😴 Сон</span>
-                        <div class="text-xs font-bold text-forma-300">7.5 часов</div>
+                    <!-- Quick Activity Trackers Grid -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="glass-card p-3.5 flex flex-col justify-between space-y-2 border border-white/10">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-extrabold text-white">🚶 Шаги</span>
+                                <button type="button" onclick="safeRun(() => incrementSteps(500))" class="text-[10px] font-extrabold bg-white/10 text-forma-accentPink px-2 py-0.5 rounded-lg btn-touch border border-white/10">+500</button>
+                            </div>
+                            <div class="text-lg font-black text-white"><span id="dash-steps-cur">0</span> <span class="text-[10px] text-forma-300 font-normal">/ 8,000</span></div>
+                        </div>
+
+                        <div class="glass-card p-3.5 flex flex-col justify-between space-y-2 border border-white/10">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-extrabold text-white">💧 Вода</span>
+                                <button type="button" onclick="safeRun(() => incrementWater(250))" class="text-[10px] font-extrabold bg-white/10 text-forma-accentPink px-2 py-0.5 rounded-lg btn-touch border border-white/10">+250мл</button>
+                            </div>
+                            <div class="text-lg font-black text-white"><span id="dash-water-cur">0.00</span> <span class="text-[10px] text-forma-300 font-normal">/ 2.0л</span></div>
+                        </div>
+
+                        <div class="glass-card p-3.5 flex flex-col justify-between space-y-1.5 border border-white/10" onclick="safeRun(() => switchTab('nutrition'))">
+                            <span class="text-xs font-extrabold text-white">🍽 Питание</span>
+                            <div class="text-xs font-bold text-forma-300"><span id="dash-meals-checked">0</span> из <span id="dash-meals-total">4</span> блюд</div>
+                        </div>
+
+                        <div class="glass-card p-3.5 flex flex-col justify-between space-y-1.5 border border-white/10">
+                            <span class="text-xs font-extrabold text-white">😴 Сон</span>
+                            <div class="text-xs font-bold text-forma-300">7.5 часов</div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- 4. WORKOUTS TAB -->
-            <section id="tab-workouts" class="screen-view p-5 space-y-3.5">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-xl font-black text-white">Тренировки 🏋️‍♀️</h2>
-                        <p id="workouts-loc-subtitle" class="text-xs text-forma-300">Под твои параметры</p>
+            <section id="tab-workouts" class="screen-view">
+                <div class="tab-scroll-area p-5 space-y-3.5">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-black text-white">Тренировки 🏋️‍♀️</h2>
+                            <p id="workouts-loc-subtitle" class="text-xs text-forma-300">Под твои параметры</p>
+                        </div>
+                        <button type="button" onclick="safeRun(() => switchTab('profile'))" class="text-xs font-extrabold text-forma-accentPink bg-white/10 px-3 py-1.5 rounded-2xl border border-white/10 btn-touch">
+                            Изменить ⚙️
+                        </button>
                     </div>
-                    <button type="button" onclick="safeRun(() => switchTab('profile'))" class="text-xs font-extrabold text-forma-accentPink bg-white/10 px-3 py-1.5 rounded-2xl border border-white/10 btn-touch">
-                        Изменить ⚙️
-                    </button>
-                </div>
 
-                <div id="workouts-list-container" class="space-y-3 overflow-y-auto no-scrollbar flex-1">
-                    <!-- Dynamic workouts list -->
+                    <div id="workouts-list-container" class="space-y-3">
+                        <!-- Dynamic workouts catalog -->
+                    </div>
                 </div>
             </section>
 
             <!-- 5. NUTRITION TAB -->
-            <section id="tab-nutrition" class="screen-view p-5 space-y-3.5">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-xl font-black text-white">Питание 🍎</h2>
-                        <p class="text-xs text-forma-300">Простые блюда из доступных продуктов</p>
+            <section id="tab-nutrition" class="screen-view">
+                <div class="tab-scroll-area p-5 space-y-3.5">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-black text-white">Питание 🍎</h2>
+                            <p class="text-xs text-forma-300">Простые блюда из доступных продуктов</p>
+                        </div>
+                        <button type="button" onclick="safeRun(openAddDishModal)" class="w-9 h-9 rounded-2xl bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white flex items-center justify-center text-xs shadow-glow-pink btn-touch">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
                     </div>
-                    <button type="button" onclick="safeRun(openAddDishModal)" class="w-9 h-9 rounded-2xl bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white flex items-center justify-center text-xs shadow-glow-pink btn-touch">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div>
 
-                <div id="nutrition-meals-list" class="space-y-3 overflow-y-auto no-scrollbar flex-1">
-                    <!-- Dynamic meals list -->
+                    <div id="nutrition-meals-list" class="space-y-3">
+                        <!-- Dynamic meals list -->
+                    </div>
                 </div>
             </section>
 
             <!-- 6. PROGRESS TAB -->
-            <section id="tab-progress" class="screen-view p-5 space-y-3.5">
-                <div>
-                    <h2 class="text-xl font-black text-white">Прогресс 📈</h2>
-                    <p class="text-xs text-forma-300">Динамика веса и замеры тела</p>
-                </div>
-
-                <div class="glass-card p-3.5 flex items-center justify-between border border-white/10">
+            <section id="tab-progress" class="screen-view">
+                <div class="tab-scroll-area p-5 space-y-3.5">
                     <div>
-                        <span class="text-[10px] font-extrabold text-forma-300 uppercase block">Записать вес сегодня</span>
-                        <div class="flex items-center space-x-1.5 mt-0.5">
-                            <input type="number" id="input-weight-entry" step="0.1" placeholder="62.0" class="w-16 p-1 rounded-xl bg-white/10 border border-white/20 text-center font-black text-xs text-white focus:outline-none">
-                            <span class="text-xs font-bold text-forma-300">кг</span>
+                        <h2 class="text-xl font-black text-white">Прогресс 📈</h2>
+                        <p class="text-xs text-forma-300">Динамика веса и замеры тела</p>
+                    </div>
+
+                    <div class="glass-card p-3.5 flex items-center justify-between border border-white/10">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-forma-300 uppercase block">Записать вес сегодня</span>
+                            <div class="flex items-center space-x-1.5 mt-0.5">
+                                <input type="number" id="input-weight-entry" step="0.1" placeholder="62.0" class="w-16 p-1 rounded-xl bg-white/10 border border-white/20 text-center font-black text-xs text-white focus:outline-none">
+                                <span class="text-xs font-bold text-forma-300">кг</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="safeRun(saveNewWeightEntry)" class="btn-touch py-2.5 px-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-extrabold text-xs rounded-2xl shadow-glow-pink">
+                            Записать
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Weight SVG Chart -->
+                    <div class="glass-card p-4 space-y-1 border border-white/10">
+                        <span class="text-[10px] font-black text-white uppercase tracking-wider block">График изменения веса</span>
+                        <div class="w-full h-36 pt-1">
+                            <svg id="svg-weight-chart" class="w-full h-full overflow-visible" viewBox="0 0 300 110">
+                                <!-- SVG Path dynamically rendered -->
+                            </svg>
                         </div>
                     </div>
-                    <button type="button" onclick="safeRun(saveNewWeightEntry)" class="btn-touch py-2.5 px-4 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-extrabold text-xs rounded-2xl shadow-glow-pink">
-                        Записать
-                    </button>
-                </div>
 
-                <!-- Dynamic Weight SVG Chart -->
-                <div class="glass-card p-4 space-y-1 border border-white/10">
-                    <span class="text-[10px] font-black text-white uppercase tracking-wider block">График изменения веса</span>
-                    <div class="w-full h-36 pt-1">
-                        <svg id="svg-weight-chart" class="w-full h-full overflow-visible" viewBox="0 0 300 110">
-                            <!-- SVG Path dynamically rendered -->
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Body Measurements Logger -->
-                <div class="glass-card p-4 space-y-2.5 border border-white/10">
-                    <span class="text-[10px] font-black text-white uppercase tracking-wider block">Замеры тела (см)</span>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
-                            <span class="text-[9px] font-bold text-forma-300 block">Талия</span>
-                            <input type="number" id="input-meas-waist" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
-                        </div>
-                        <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
-                            <span class="text-[9px] font-bold text-forma-300 block">Бёдра</span>
-                            <input type="number" id="input-meas-hips" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
-                        </div>
-                        <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
-                            <span class="text-[9px] font-bold text-forma-300 block">Живот</span>
-                            <input type="number" id="input-meas-belly" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
+                    <!-- Body Measurements Logger -->
+                    <div class="glass-card p-4 space-y-2.5 border border-white/10">
+                        <span class="text-[10px] font-black text-white uppercase tracking-wider block">Замеры тела (см)</span>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
+                                <span class="text-[9px] font-bold text-forma-300 block">Талия</span>
+                                <input type="number" id="input-meas-waist" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
+                            </div>
+                            <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
+                                <span class="text-[9px] font-bold text-forma-300 block">Бёдра</span>
+                                <input type="number" id="input-meas-hips" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
+                            </div>
+                            <div class="bg-white/5 p-2.5 rounded-2xl text-center border border-white/10">
+                                <span class="text-[9px] font-bold text-forma-300 block">Живот</span>
+                                <input type="number" id="input-meas-belly" value="0" onchange="safeRun(saveMeasurementsState)" class="w-full bg-transparent text-center font-black text-xs text-white focus:outline-none">
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- 7. PROFILE TAB -->
-            <section id="tab-profile" class="screen-view p-5 space-y-3.5">
-                <div>
-                    <h2 class="text-xl font-black text-white">Профиль & Настройки 👤</h2>
-                    <p class="text-xs text-forma-300">Локация и персональный план</p>
-                </div>
-
-                <div class="glass-card p-4 flex items-center space-x-3.5 border border-white/10">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-forma-accentPurple to-forma-accentPink flex items-center justify-center text-white text-lg font-black shadow-glow-pink shrink-0">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
+            <section id="tab-profile" class="screen-view">
+                <div class="tab-scroll-area p-5 space-y-3.5">
                     <div>
-                        <h3 id="prof-display-name" class="font-black text-sm text-white">Пользователь</h3>
-                        <p id="prof-display-sub" class="text-xs text-forma-300 font-semibold">Параметры не указаны</p>
+                        <h2 class="text-xl font-black text-white">Профиль & Настройки 👤</h2>
+                        <p class="text-xs text-forma-300">Локация и персональный план</p>
                     </div>
-                </div>
 
-                <!-- Location Switcher -->
-                <div class="glass-card p-4 space-y-3 border border-white/10">
-                    <span class="text-[10px] font-black text-white uppercase tracking-wider block">Локация тренировок</span>
-
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="safeRun(() => setProfileLocation('🏠 Дома'))" id="prof-loc-btn-home" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
-                            <i class="fa-solid fa-house-chimney text-sm"></i>
-                            <span>🏠 Дома</span>
-                        </button>
-                        <button type="button" onclick="safeRun(() => setProfileLocation('🏋️ В зале'))" id="prof-loc-btn-gym" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
-                            <i class="fa-solid fa-dumbbell text-sm"></i>
-                            <span>🏋️ В зале</span>
-                        </button>
-                        <button type="button" onclick="safeRun(() => setProfileLocation('🔄 Дома и в зале'))" id="prof-loc-btn-both" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
-                            <i class="fa-solid fa-arrows-rotate text-sm"></i>
-                            <span>🔄 Везде</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Parameters Editor -->
-                <div class="glass-card p-4 space-y-2.5 border border-white/10">
-                    <span class="text-[10px] font-black text-white uppercase tracking-wider block">Изменить цели веса</span>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-white/5 p-2.5 rounded-2xl border border-white/10">
-                            <span class="text-[9px] font-extrabold text-forma-300 block">Текущий вес</span>
-                            <input type="number" id="prof-edit-cur-w" step="0.5" onchange="safeRun(syncProfileMetrics)" class="w-full bg-transparent text-xs font-black text-white focus:outline-none pt-0.5">
+                    <div class="glass-card p-4 flex items-center space-x-3.5 border border-white/10">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-forma-accentPurple to-forma-accentPink flex items-center justify-center text-white text-lg font-black shadow-glow-pink shrink-0">
+                            <i class="fa-solid fa-user"></i>
                         </div>
-                        <div class="bg-white/5 p-2.5 rounded-2xl border border-white/10">
-                            <span class="text-[9px] font-extrabold text-forma-300 block">Целевой вес</span>
-                            <input type="number" id="prof-edit-tar-w" step="0.5" onchange="safeRun(syncProfileMetrics)" class="w-full bg-transparent text-xs font-black text-white focus:outline-none pt-0.5">
+                        <div>
+                            <h3 id="prof-display-name" class="font-black text-sm text-white">Пользователь</h3>
+                            <p id="prof-display-sub" class="text-xs text-forma-300 font-semibold">Параметры не указаны</p>
                         </div>
                     </div>
-                </div>
 
-                <div class="space-y-2 pt-1">
-                    <button type="button" onclick="safeRun(restartOnboardingProcess)" class="btn-touch w-full py-3 bg-white/10 text-white font-extrabold text-xs rounded-2xl border border-white/10">
-                        Пройти анкетирование заново 🔄
-                    </button>
-                    <button type="button" onclick="safeRun(openResetConfirmationModal)" class="btn-touch w-full py-3 bg-rose-500/20 text-rose-400 font-extrabold text-xs rounded-2xl border border-rose-500/30">
-                        Сбросить все данные
-                    </button>
+                    <!-- Location Switcher -->
+                    <div class="glass-card p-4 space-y-3 border border-white/10">
+                        <span class="text-[10px] font-black text-white uppercase tracking-wider block">Локация тренировок</span>
+
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="safeRun(() => setProfileLocation('🏠 Дома'))" id="prof-loc-btn-home" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-house-chimney text-sm"></i>
+                                <span>🏠 Дома</span>
+                            </button>
+                            <button type="button" onclick="safeRun(() => setProfileLocation('🏋️ В зале'))" id="prof-loc-btn-gym" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-dumbbell text-sm"></i>
+                                <span>🏋️ В зале</span>
+                            </button>
+                            <button type="button" onclick="safeRun(() => setProfileLocation('🔄 Дома и в зале'))" id="prof-loc-btn-both" class="prof-loc-btn selectable-card p-3 rounded-2xl text-xs font-bold text-center flex flex-col items-center justify-center space-y-1">
+                                <i class="fa-solid fa-arrows-rotate text-sm"></i>
+                                <span>🔄 Везде</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Parameters Editor -->
+                    <div class="glass-card p-4 space-y-2.5 border border-white/10">
+                        <span class="text-[10px] font-black text-white uppercase tracking-wider block">Изменить цели веса</span>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-white/5 p-2.5 rounded-2xl border border-white/10">
+                                <span class="text-[9px] font-extrabold text-forma-300 block">Текущий вес</span>
+                                <input type="number" id="prof-edit-cur-w" step="0.5" onchange="safeRun(syncProfileMetrics)" class="w-full bg-transparent text-xs font-black text-white focus:outline-none pt-0.5">
+                            </div>
+                            <div class="bg-white/5 p-2.5 rounded-2xl border border-white/10">
+                                <span class="text-[9px] font-extrabold text-forma-300 block">Целевой вес</span>
+                                <input type="number" id="prof-edit-tar-w" step="0.5" onchange="safeRun(syncProfileMetrics)" class="w-full bg-transparent text-xs font-black text-white focus:outline-none pt-0.5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <button type="button" onclick="safeRun(restartOnboardingProcess)" class="btn-touch w-full py-3 bg-white/10 text-white font-extrabold text-xs rounded-2xl border border-white/10">
+                            Пройти анкетирование заново 🔄
+                        </button>
+                        <button type="button" onclick="safeRun(openResetConfirmationModal)" class="btn-touch w-full py-3 bg-rose-500/20 text-rose-400 font-extrabold text-xs rounded-2xl border border-rose-500/30">
+                            Сбросить все данные
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -779,20 +839,20 @@
                     </button>
                 </div>
 
-                <div class="my-auto text-center space-y-3.5 py-2 overflow-y-auto no-scrollbar">
-                    <div class="relative w-full h-40 rounded-3xl overflow-hidden shadow-card-glass bg-black border border-white/15 flex items-center justify-center shrink-0">
+                <div class="my-auto text-center space-y-3 py-2 overflow-y-auto no-scrollbar">
+                    <div class="relative w-full h-40 rounded-3xl overflow-hidden shadow-2xl bg-black border border-white/15 flex items-center justify-center shrink-0">
                         <img id="player-ex-img" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop&q=80" alt="Exercise" class="w-full h-full object-cover opacity-60" onerror="this.src='https://placehold.co/600x400/181028/ffffff?text=Exercise'">
                         <div class="absolute inset-0 bg-gradient-to-t from-forma-950 via-transparent to-transparent"></div>
                         
                         <!-- SVG ANIMATED FIGURE MOTION SIMULATOR -->
                         <div class="absolute inset-0 flex items-center justify-center">
                             <svg class="w-20 h-20 figure-squating" viewBox="0 0 100 100">
-                                <circle cx="50" cy="20" r="8" fill="#EC4899"/>
+                                <circle cx="50" cy="20" r="8" fill="#f72585"/>
                                 <line x1="50" y1="28" x2="50" y2="55" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
                                 <line x1="50" y1="35" x2="32" y2="48" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
                                 <line x1="50" y1="35" x2="68" y2="48" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                                <line x1="50" y1="55" x2="35" y2="82" stroke="#EC4899" stroke-width="6" stroke-linecap="round" class="muscle-pulse"/>
-                                <line x1="50" y1="55" x2="65" y2="82" stroke="#EC4899" stroke-width="6" stroke-linecap="round" class="muscle-pulse"/>
+                                <line x1="50" y1="55" x2="35" y2="82" stroke="#f72585" stroke-width="6" stroke-linecap="round" class="muscle-pulse"/>
+                                <line x1="50" y1="55" x2="65" y2="82" stroke="#f72585" stroke-width="6" stroke-linecap="round" class="muscle-pulse"/>
                             </svg>
                         </div>
 
@@ -815,8 +875,8 @@
                         <span id="player-timer-text" class="absolute text-xl font-black text-white">00:40</span>
                     </div>
 
-                    <!-- SMART TECHNIQUE GUIDE BOX -->
-                    <div class="glass-card p-3.5 rounded-2xl text-left border border-white/10 space-y-2">
+                    <!-- TECHNIQUE BOX -->
+                    <div class="glass-card p-3 rounded-2xl text-left border border-white/10 space-y-1.5">
                         <div class="flex items-center justify-between">
                             <span class="text-[10px] font-black text-forma-accentPink uppercase tracking-wider">💡 Техника выполнения</span>
                             <button type="button" onclick="safeRun(toggleTechniqueGuideModal)" class="text-[10px] font-bold text-forma-300 underline">Подробнее ➔</button>
@@ -825,10 +885,10 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2 shrink-0 pb-2 pt-1">
-                    <button type="button" onclick="safeRun(skipExerciseStep)" class="btn-touch py-3.5 bg-white/10 border border-white/10 text-forma-300 font-extrabold text-xs rounded-2xl">Пропустить</button>
-                    <button type="button" id="player-toggle-btn" onclick="safeRun(toggleWorkoutPause)" class="btn-touch py-3.5 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black text-xs rounded-2xl shadow-glow-pink">Пауза</button>
-                    <button type="button" onclick="safeRun(nextExerciseStep)" class="btn-touch py-3.5 bg-white/20 text-white font-extrabold text-xs rounded-2xl">Дальше ➔</button>
+                <div class="grid grid-cols-3 gap-2 shrink-0 pb-2 pt-1" style="padding-bottom: calc(var(--sab) + 10px);">
+                    <button type="button" onclick="safeRun(skipExerciseStep)" class="btn-touch py-3 bg-white/10 border border-white/10 text-forma-300 font-extrabold text-xs rounded-2xl">Пропустить</button>
+                    <button type="button" id="player-toggle-btn" onclick="safeRun(toggleWorkoutPause)" class="btn-touch py-3 bg-gradient-to-r from-forma-accentPurple to-forma-accentPink text-white font-black text-xs rounded-2xl shadow-glow-pink">Пауза</button>
+                    <button type="button" onclick="safeRun(nextExerciseStep)" class="btn-touch py-3 bg-white/20 text-white font-extrabold text-xs rounded-2xl">Дальше ➔</button>
                 </div>
             </section>
 
@@ -919,26 +979,26 @@
             </div>
         </div>
 
-        <!-- BOTTOM NAVIGATION BAR -->
-        <nav id="bottom-nav-bar" class="hidden shrink-0 bg-forma-950/90 backdrop-blur-lg border-t border-white/10 px-2 py-2.5 flex justify-around items-center z-40">
+        <!-- BOTTOM NAVIGATION BAR (FIXED WITH INLINE SVG ICONS) -->
+        <nav id="bottom-nav-bar" class="bottom-nav-bar hidden">
             <button type="button" onclick="safeRun(() => switchTab('dashboard'))" id="nav-btn-dashboard" class="nav-item flex flex-col items-center text-forma-accentPink font-bold btn-touch">
-                <i class="fa-solid fa-house text-base"></i>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                 <span class="text-[9px] mt-0.5">Главная</span>
             </button>
             <button type="button" onclick="safeRun(() => switchTab('workouts'))" id="nav-btn-workouts" class="nav-item flex flex-col items-center text-forma-300 font-medium btn-touch">
-                <i class="fa-solid fa-dumbbell text-base"></i>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 7.71 4.86 3.43 9.14 2 7.71 0.57 9.14 2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22 14.86 20.57 16.29 22 17.71 20.57 16.29 19.14 20.57 14.86z"/></svg>
                 <span class="text-[9px] mt-0.5">Тренировки</span>
             </button>
             <button type="button" onclick="safeRun(() => switchTab('nutrition'))" id="nav-btn-nutrition" class="nav-item flex flex-col items-center text-forma-300 font-medium btn-touch">
-                <i class="fa-solid fa-apple-whole text-base"></i>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20 10c0-4.41-3.59-8-8-8s-8 3.59-8 8c0 4.25 3.32 7.73 7.5 7.98v3.02h-2.5v2h7v-2h-2.5v-3.02c4.18-.25 7.5-3.73 7.5-7.98zm-8 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
                 <span class="text-[9px] mt-0.5">Питание</span>
             </button>
             <button type="button" onclick="safeRun(() => switchTab('progress'))" id="nav-btn-progress" class="nav-item flex flex-col items-center text-forma-300 font-medium btn-touch">
-                <i class="fa-solid fa-chart-line text-base"></i>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.09-4-4L2 15.01z"/></svg>
                 <span class="text-[9px] mt-0.5">Прогресс</span>
             </button>
             <button type="button" onclick="safeRun(() => switchTab('profile'))" id="nav-btn-profile" class="nav-item flex flex-col items-center text-forma-300 font-medium btn-touch">
-                <i class="fa-solid fa-user text-base"></i>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                 <span class="text-[9px] mt-0.5">Профиль</span>
             </button>
         </nav>
@@ -954,7 +1014,7 @@
             try {
                 if (typeof fn === 'function') fn();
             } catch (err) {
-                console.error('FORMA Runtime Exception Handled:', err);
+                console.error('FORMA Runtime Exception:', err);
             }
         }
 
@@ -990,7 +1050,7 @@
 
         function loadState() {
             try {
-                const data = localStorage.getItem('forma_fitness_v15');
+                const data = localStorage.getItem('forma_fitness_v16');
                 if (data) return JSON.parse(data);
             } catch(e) {
                 console.error('State load error:', e);
@@ -1000,7 +1060,7 @@
 
         function saveState() {
             try {
-                localStorage.setItem('forma_fitness_v15', JSON.stringify(app));
+                localStorage.setItem('forma_fitness_v16', JSON.stringify(app));
             } catch(e) {
                 console.error('State save error:', e);
             }
@@ -1013,46 +1073,10 @@
         ];
 
         const EXERCISES_SET = [
-            { 
-                name: "Приседания", 
-                target: "Ягодицы и бедра", 
-                duration: 40, 
-                tip: "Спина прямая, колени смотрят по направлению носков.", 
-                step1: "Стопы чуть шире плеч, носки развернуты на 15 градусов.", 
-                step2: "Опускайся назад до параллели бёдер с полом.", 
-                mistakes: "Завал коленей внутрь и отрыв пяток от пола.", 
-                img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&auto=format&fit=crop&q=80" 
-            },
-            { 
-                name: "Ягодичный мост", 
-                target: "Ягодицы", 
-                duration: 45, 
-                tip: "Сжимай ягодицы в верхней точке на 1 секунду.", 
-                step1: "Лёжа на спине, ноги согнуты в коленях, стопы уперты в пол.", 
-                step2: "Выталкивай таз вверх силой ягодичных мышц.", 
-                mistakes: "Чрезмерный прогиб в пояснице.", 
-                img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop&q=80" 
-            },
-            { 
-                name: "Отжимания с колен", 
-                target: "Грудь и руки", 
-                duration: 30, 
-                tip: "Тело образует прямую линию, пресс напряжен.", 
-                step1: "Упор на ладони и колени, спина ровная.", 
-                step2: "Опускай грудную клетку к полу, сгибая локти под 45 градусов.", 
-                mistakes: "Провисание таза вниз.", 
-                img: "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=600&auto=format&fit=crop&q=80" 
-            },
-            { 
-                name: "Планка", 
-                target: "Кор и пресс", 
-                duration: 30, 
-                tip: "Держи пресс в напряжении, не прогибайся в пояснице.", 
-                step1: "Упор на предплечья и носки стоп.", 
-                step2: "Удерживай тело в одной прямой линии от головы до пяток.", 
-                mistakes: "Подъем таза слишком высоко.", 
-                img: "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=600&auto=format&fit=crop&q=80" 
-            }
+            { name: "Приседания", target: "Ягодицы и бедра", duration: 40, tip: "Спина прямая, колени смотрят по направлению носков.", step1: "Стопы чуть шире плеч, носки развернуты на 15 градусов.", step2: "Опускайся назад до параллели бёдер с полом.", mistakes: "Завал коленей внутрь и отрыв пяток от пола.", img: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&auto=format&fit=crop&q=80" },
+            { name: "Ягодичный мост", target: "Ягодицы", duration: 45, tip: "Сжимай ягодицы в верхней точке на 1 секунду.", step1: "Лёжа на спине, ноги согнуты в коленях, стопы уперты в пол.", step2: "Выталкивай таз вверх силой ягодичных мышц.", mistakes: "Чрезмерный прогиб в пояснице.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop&q=80" },
+            { name: "Отжимания с колен", target: "Грудь и руки", duration: 30, tip: "Тело образует прямую линию, пресс напряжен.", step1: "Упор на ладони и колени, спина ровная.", step2: "Опускай грудную клетку к полу, сгибая локти под 45 градусов.", mistakes: "Провисание таза вниз.", img: "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=600&auto=format&fit=crop&q=80" },
+            { name: "Планка", target: "Кор и пресс", duration: 30, tip: "Держи пресс в напряжении, не прогибайся в пояснице.", step1: "Упор на предплечья и носки стоп.", step2: "Удерживай тело в одной прямой линии от головы до пяток.", mistakes: "Подъем таза слишком высоко.", img: "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=600&auto=format&fit=crop&q=80" }
         ];
 
         const RECIPE_SWAP_OPTIONS = [
@@ -1291,7 +1315,6 @@
                 const planGen = safeEl('screen-plan-gen');
                 if (planGen) planGen.classList.add('active');
 
-                // Instant completion sequence without infinite loading
                 setTimeout(() => {
                     if (!app.hasCompletedOnboarding) {
                         completeOnboardingFlow();
@@ -1430,7 +1453,6 @@
                 const img = safeEl('player-ex-img');
                 if (img) img.src = ex.img;
 
-                // Sync technique modal
                 const mTitle = safeEl('tech-modal-title');
                 if (mTitle) mTitle.innerText = ex.name;
 
@@ -1663,8 +1685,8 @@
                 if (logs.length === 1) {
                     const w = logs[0].weight;
                     svg.innerHTML = `
-                        <line x1="20" y1="55" x2="280" y2="55" stroke="#EC4899" stroke-width="2" stroke-dasharray="4,4"/>
-                        <circle cx="150" cy="55" r="5" fill="#FFFFFF" stroke="#EC4899" stroke-width="3"/>
+                        <line x1="20" y1="55" x2="280" y2="55" stroke="#f72585" stroke-width="2" stroke-dasharray="4,4"/>
+                        <circle cx="150" cy="55" r="5" fill="#FFFFFF" stroke="#f72585" stroke-width="3"/>
                         <text x="150" y="40" text-anchor="middle" font-size="10" font-weight="900" fill="#FFFFFF">${w} кг</text>
                     `;
                     return;
@@ -1695,14 +1717,14 @@
                 svg.innerHTML = `
                     <defs>
                         <linearGradient id="chartG" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#EC4899" stop-opacity="0.4"/>
-                            <stop offset="100%" stop-color="#EC4899" stop-opacity="0.0"/>
+                            <stop offset="0%" stop-color="#f72585" stop-opacity="0.4"/>
+                            <stop offset="100%" stop-color="#f72585" stop-opacity="0.0"/>
                         </linearGradient>
                     </defs>
                     <path d="${pathD} L ${pts[pts.length-1].x} ${height} L ${pts[0].x} ${height} Z" fill="url(#chartG)"/>
-                    <path d="${pathD}" fill="none" stroke="#EC4899" stroke-width="3" stroke-linecap="round"/>
+                    <path d="${pathD}" fill="none" stroke="#f72585" stroke-width="3" stroke-linecap="round"/>
                     ${pts.map(p => `
-                        <circle cx="${p.x}" cy="${p.y}" r="4" fill="#FFFFFF" stroke="#EC4899" stroke-width="2"/>
+                        <circle cx="${p.x}" cy="${p.y}" r="4" fill="#FFFFFF" stroke="#f72585" stroke-width="2"/>
                         <text x="${p.x}" y="${p.y - 7}" text-anchor="middle" font-size="9" font-weight="900" fill="#FFFFFF">${p.weight}</text>
                     `).join('')}
                 `;
@@ -1795,7 +1817,7 @@
 
         function executeFullReset() {
             safeRun(() => {
-                localStorage.removeItem('forma_fitness_v15');
+                localStorage.removeItem('forma_fitness_v16');
                 app = JSON.parse(JSON.stringify(CLEAN_BLANK_STATE));
                 closeResetConfirmationModal();
                 showWelcomeScreen();
